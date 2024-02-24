@@ -1,9 +1,10 @@
-
+# Imports
 import cv2
 import mediapipe as mp
 import os
 import time
 
+# Drawing Utilities
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_face_mesh = mp.solutions.face_mesh
@@ -13,6 +14,7 @@ IMAGE_FILES = []
 
 drawing_spec = mp_drawing.DrawingSpec(thickness=0.5, circle_radius=0.5)
 
+# Class Library Defaults
 with mp_face_mesh.FaceMesh(
     static_image_mode=True,
     max_num_faces=1,
@@ -30,7 +32,8 @@ with mp_face_mesh.FaceMesh(
       continue
     
     annotated_image = image.copy()
-    
+
+    # Draws Contours of the Face (Refrences Drawing Utilities)
     for face_landmarks in results.multi_face_landmarks:
       print('face_landmarks:', face_landmarks)
       
@@ -82,6 +85,7 @@ with mp_face_mesh.FaceMesh(
     # Draw the face mesh annotations on the image.
     image.flags.writeable = True
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+
     
     if results.multi_face_landmarks:
       
@@ -115,5 +119,5 @@ with mp_face_mesh.FaceMesh(
 
             break
     
-
+# Releases the cap object to end the stream
 cap.release()
